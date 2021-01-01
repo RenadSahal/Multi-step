@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+   * {
+      box-sizing: border-box;
+   }
+   #regForm {
+    padding: 20px;
+    width: 60%;
+    min-width: 150px;
+    background-color: #dbdada;
+   }
+   input {
+    padding: 10px;
+    height: 30px;
+    width: 30%;
+    border-radius: 5px;
+    font-size: 17px;
+    font-family: Raleway;
+   }
+   input.invalid {
+      background-color: #ffdddd;
+   }
+   .page {
+      display: none;
+   }
+   button {
+      background-color: #4c87af;
+      color: #ffffff;
+      padding: 5px 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 17px;
+      font-family: Raleway;
+      margin-right:620px;
+      margin-top: 10px;
+   }
+   button:hover {
+      opacity: 0.8;
+   }
+   #prevBtn {
+      background-color: #bbbbbb;
+   }
+   .step {
+      height: 50px;
+      width: 250px;
+      margin: 0 2px;
+      background-color: #dbdada;
+      border-radius: 5px;
+      padding-left:25px;
+      line-height:45px;
+      display: inline-block;
+      font-size: large;
+   }
+   .step.active {
+    background-color:rgb(150, 150, 240);
+   }
+</style>
+<body>
+  <div style="text-align:left;margin-top:40px;">
+    <span class="step">1.Account</span>
+    <span class="step">2.Profile</span>
+    <span class="step">3.Finish</span>
+    </div>
+    <br><br>
+<form id="regForm">
+    <br>
+<div class="page">User name*:
+<p><input ></p>
+<div>Password*</div>
+<p><input  type="password"></p>
+<div>coniform Password*</div>
+<p><input  type="password"></p>
+</div>
+<div class="page">Contact Info:
+<p><input placeholder="E-mail:"></p>
+<p><input placeholder="Phone:"></p>
+<div>Birthday:
+  <p><input placeholder="Date:"></p>
+  <p><input placeholder="Month:"></p>
+  <p><input placeholder="Year:"></p>
+  </div>
+</div>
+
+<div class="page">List of terms and conditions:
+<p>
+ <b> Comments should be focused on the topic addressed and avoid swear words.<br> Use of CAPITAL LETTERS is nearly always unhelpful.<br>
+Users value well presented and written material:<br> The List will remove Comments that are poorly presented.
+Comments should only submit URLs that are directly relevant to the place or event.<br> Obviously commercial or spam-like contributions will be removed.<br>
+Users should not submit Comments that could harass on grounds of sex, race, gender or disability, or is offensive to others sexuality.<br>
+Users should not submit Comments that are obscene, threatening, menacing, abusive, or in breach of confidence.<br>
+Users must avoid Comments that identify an individual in an invidious manner. <br>The List will remove Comments that may be libelous.<br>
+Users must not post material which is the copyright of a third party.<br></b>
+<input type="checkbox"> I have read, understood and accept the terms and conditions
+</p>
+
+</div>
+</form>
+<div style="overflow:auto;">
+  <div style="float:right;">
+  <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+  <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+  </div>
+  </div>
+<script>
+   var currentTab = 0;
+   showTab(currentTab);
+   function showTab(stepNo) {
+      var pageEle = document.getElementsByClassName("page");
+      pageEle[stepNo].style.display = "block";
+      if (stepNo == 0) {
+         document.getElementById("prevBtn").style.display = "none";
+      }
+      else {
+         document.getElementById("prevBtn").style.display = "inline";
+      }
+      if (stepNo == (pageEle.length - 1)) {
+         document.getElementById("nextBtn").innerHTML = "Submit";
+      }
+      else {
+         document.getElementById("nextBtn").innerHTML = "Next";
+      }
+      changeStepIndicator(stepNo)
+   }
+   function nextPrev(stepNo) {
+      var pageEle = document.getElementsByClassName("page");
+      if (stepNo == 1 && !checkForm()) return false;
+      pageEle[currentTab].style.display = "none";
+      currentTab = currentTab + stepNo;
+      if (currentTab >= pageEle.length) {
+         document.getElementById("regForm").submit();
+         return false;
+      }
+      showTab(currentTab);
+   }
+   function checkForm() {
+      var pageEle, inputEle, i, valid = true;
+      pageEle = document.getElementsByClassName("page");
+      inputEle = pageEle[currentTab].getElementsByTagName("input");
+      for (i = 0; i < inputEle.length; i++) {
+         if (inputEle[i].value == "") {
+            inputEle[i].className += " invalid";
+            valid = false;
+         }
+      }
+      if (valid) {
+         document.getElementsByClassName("step")[currentTab].className += " finish";
+      }
+      return valid;
+   }
+   function changeStepIndicator(stepNo) {
+      var i, pageEle = document.getElementsByClassName("step");
+      for (i = 0; i < pageEle.length; i++) {
+         pageEle[i].className = pageEle[i].className.replace(" active", "");
+      }
+      pageEle[stepNo].className += " active";
+   }
+</script>
+</body>
+</html>
